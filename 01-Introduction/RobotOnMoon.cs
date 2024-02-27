@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Runtime;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -11,7 +12,53 @@ public class RobotOnMoon
 {
     public string isSafeCommand(string[] board, string S)
     {
-        return default(string);
+        int robotX = -1, robotY = -1;
+        for (int i = 0; i < board.Length; i++)
+        {
+            var row = board[i];
+            robotX = row.IndexOf('S');
+            if (robotX > -1)
+            {
+                robotY = i;
+                break;
+            }
+        }
+
+        int newX, newY;
+        foreach(var cmd in S)
+        {
+            newX = robotX;
+            newY = robotY;
+            switch(cmd)
+            {
+                case 'L':
+                    newX--;
+                    break;
+                case 'R':
+                    newX++;
+                    break;
+                case 'U':
+                    newY--;
+                    break;
+                case 'D':
+                    newY++;
+                    break;
+            }
+
+            try
+            {
+                if (board[newY][newX] == '.' || board[newY][newX] == 'S')
+                {
+                    robotX = newX;
+                    robotY = newY;
+                }
+            } catch(Exception)
+            {
+                return "Dead";
+            }
+
+        }
+        return "Alive";
     }
 
     #region Testing code
