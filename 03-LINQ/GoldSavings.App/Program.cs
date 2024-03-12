@@ -128,5 +128,59 @@ class Program
                 Date = DateTime.Parse(goldPrice.Element("Date")?.Value ?? "0000-00-00"),
                 Price = double.Parse(goldPrice.Element("Amount")?.Value ?? "0")
             });
+
+        Task2();
+    }
+
+    // TASK 2
+    static void Task2()
+    {
+        var isLeap = (int year) => (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0);
+
+        // Test:
+        Console.WriteLine("\n\n\nTask 2");
+        Console.WriteLine(isLeap(2000));
+        Console.WriteLine(isLeap(1996));
+        Console.WriteLine(isLeap(1900));
+
+        var r = new RandomList<int>();
+        r.Add(0);
+        r.Add(1);
+        r.Add(2);
+        r.Add(3);
+        r.Add(4);
+        r.Add(5);
+
+        Console.WriteLine(r.Get(0));
+        Console.WriteLine(r.Get(1));
+        Console.WriteLine(r.Get(2));
+        Console.WriteLine(r.Get(3));
+        Console.WriteLine(r.Get(4));
+        Console.WriteLine(r.Get(5));
+    }
+
+    class RandomList<T>
+    {
+        private List<T> list = [];
+
+        public bool IsEmpty => list.Count == 0;
+
+        public void Add(T item)
+        {
+            var random = new Random();
+            if (random.NextDouble() < 0.5)
+            {
+                list.Add(item);
+            } else
+            {
+                list.Insert(0, item);
+            }
+        }
+
+        public T Get(int index)
+        {
+            var random = new Random();
+            return list[random.Next(index)];
+        }
     }
 }
